@@ -1,10 +1,11 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, Signal } from '@angular/core';
 import { Task } from '../models/task.model';
+import { ITaskService } from './task-service.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TaskService {
+export class TaskService implements ITaskService{
   private tasks = signal<Task[]>([
     {
       id: 1,
@@ -41,11 +42,11 @@ export class TaskService {
   private filterId = signal<number | null>(null);
   filteredTasks = signal<Task[]>(this.tasks());
 
-  getTasks() {
+  getTasks(): Signal<Task[]> {
     return this.tasks.asReadonly();
   }
 
-  filterById(id: number | null) {
+  filterById(id: number | null): void {
     this.filterId.set(id);
     if (id === null) {
       this.filteredTasks.set(this.tasks());
@@ -55,7 +56,7 @@ export class TaskService {
     }
   }
 
-  addTask(task: Omit<Task, 'id' | 'status'>) {
+  addTask(task: Omit<Task, 'id' | 'status'>): void {
     const maxId =
       this.tasks().length > 0 ? Math.max(...this.tasks().map((t) => t.id)) : 0;
     const newTask: Task = {
@@ -70,7 +71,7 @@ export class TaskService {
     }
   }
 
-  deleteTask(id: number) {
+  deleteTask(id: number): void {
     this.tasks.update((tasks) => tasks.filter((task) => task.id !== id));
 
     this.filteredTasks.update((tasks) =>
@@ -78,17 +79,18 @@ export class TaskService {
     );
   }
 
-  getTaskById(id: number) {
+  getTaskById(id: number): Task | undefined {
     return this.tasks().find((task) => task.id === id);
   }
 
-  toggleTaskStatus(id: number) {
+  toggleTaskStatus(id: number): void {
     this.tasks.update((tasks) =>
       tasks.map((task) =>
         task.id === id
           ? {
               ...task,
-              status: task.status === 'не выполнена' ? 'выполнена' : 'не выполнена',
+              status:
+                task.status === 'не выполнена' ? 'выполнена' : 'не выполнена',
             }
           : task
       )
@@ -99,7 +101,8 @@ export class TaskService {
         task.id === id
           ? {
               ...task,
-              status: task.status === 'не выполнена' ? 'выполнена' : 'не выполнена',
+              status:
+                task.status === 'не выполнена' ? 'выполнена' : 'не выполнена',
             }
           : task
       )
