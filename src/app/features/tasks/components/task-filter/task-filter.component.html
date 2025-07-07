@@ -1,0 +1,10 @@
+<div class="mb-4 flex items-center space-x-2">
+  <mat-form-field appearance="fill" class="w-full max-w-xs">
+    <mat-label>Фильтр по ID</mat-label>
+    <input matInput type="number" [formControl]="idFilter" placeholder="Введите ID задачи">
+  </mat-form-field>
+  @if (idFilter.value) {<button mat-button class="text-gray-600 hover:text-gray-800" (click)="clearFilter()" >
+    Отмена
+  </button>}
+  
+</div>

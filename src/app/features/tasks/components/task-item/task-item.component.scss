@@ -1,0 +1,11 @@
+:host {
+  display: contents;
+}
+
+/* Ensure focus states for accessibility */
+button:focus,
+mat-checkbox:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-opacity-50;
+}
+
+

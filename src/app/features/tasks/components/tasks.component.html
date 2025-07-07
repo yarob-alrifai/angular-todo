@@ -1,0 +1,17 @@
+<div class="max-w-4xl mx-auto my-5 p-6 bg-white shadow-lg rounded-lg">
+  <h1 class="text-2xl font-bold text-gray-800 mb-4">Список задач</h1>
+
+  <app-task-filter (filterChange)="onFilterChange($event)"></app-task-filter>
+
+  <div class="overflow-x-auto">
+    <app-tasks-list></app-tasks-list>
+  </div>
+  <div class="flex justify-end mt-4">
+    <button
+      class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+      (click)="onAddTask()"
+    >
+      Добавить задачу
+    </button>
+  </div>
+</div>
